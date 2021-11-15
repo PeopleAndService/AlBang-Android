@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text Appearance -->
+    <style name="text.h1" parent="android:TextAppearance">
+        <item name="fontFamily">@font/nanumsquare_aceb</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="text.h2" parent="android:TextAppearance">
+        <item name="fontFamily">@font/nanumsquare_aceb</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="text.h3" parent="android:TextAppearance">
+        <item name="fontFamily">@font/nanumsquare_aceb</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="text.body" parent="android:TextAppearance">
+        <item name="fontFamily">@font/nanumsquare_acb</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>
