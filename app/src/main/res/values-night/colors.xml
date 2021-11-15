@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF003764</color>
+    <color name="colorPrimary">#FF0037A0</color>
     <color name="colorSecondary">#FF2064E5</color>
     <color name="colorError">#FFE4032E</color>
-    <color name="colorBackground">#FFF6F6F6</color>
-    <color name="colorItem">#FFFFFFFF</color>
-    <color name="colorText">#FF000000</color>
+    <color name="colorBackground">#FF202020</color>
+    <color name="colorItem">#FF3C3C3C</color>
+    <color name="colorText">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
