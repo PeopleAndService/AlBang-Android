@@ -8,5 +8,8 @@
 
     <!-- dialog -->
 
+    <!-- content description -->
+    <string name="des_ibtn_report">신고</string>
+    <string name="des_ibtn_delete">삭제</string>
 
 </resources>
