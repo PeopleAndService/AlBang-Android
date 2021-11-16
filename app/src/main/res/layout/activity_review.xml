@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="heritageName"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/activity_review_scene">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_review"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/spacing_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_heritage_name" />
+
+
+        <ImageView
+            android:id="@+id/iv_heritage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sample_image"
+            android:visibility="visible"
+            android:contentDescription="@{@string/des_iv_heritage(heritageName)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_heritage_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="220dp"
+            android:textAppearance="@style/text.h1"
+            android:background="@color/colorPrimary"
+            android:elevation="@dimen/elevation_normal"
+            android:paddingHorizontal="@dimen/spacing_large"
+            android:paddingVertical="@dimen/spacing_small"
+            android:text="@{heritageName}"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/iv_heritage"
+            app:layout_constraintStart_toStartOf="@id/iv_heritage"
+            app:layout_constraintTop_toTopOf="@id/iv_heritage" />
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_back"
+            android:contentDescription="@string/des_btn_back"
+            android:padding="@dimen/spacing_normal"
+            android:layout_margin="@dimen/spacing_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>
