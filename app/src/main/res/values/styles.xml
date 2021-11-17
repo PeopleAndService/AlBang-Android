@@ -28,7 +28,22 @@
     </style>
 
     <!-- button guide -->
-    <style name="dialog.button.outline" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="dialog.button.outline.light" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerRadius">@dimen/spacing_normal</item>
+        <item name="strokeColor">@color/colorPrimary</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:textAppearance">@style/text.body</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:paddingTop">@dimen/spacing_extra_small</item>
+        <item name="android:paddingBottom">@dimen/spacing_extra_small</item>
+        <item name="android:paddingStart">@dimen/spacing_normal</item>
+        <item name="android:paddingEnd">@dimen/spacing_normal</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_small</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="dialog.button.outline.dark" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="cornerRadius">@dimen/spacing_normal</item>
         <item name="strokeColor">@color/colorSecondary</item>
         <item name="strokeWidth">2dp</item>
@@ -68,13 +83,27 @@
     </style>
 
     <!-- Dialogs -->
-    <style name="dialog.normal" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="dialog.normal.light" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorSurface">@color/colorBackground</item>
         <item name="alertDialogStyle">@style/dialog.background</item>
 
         <!-- button styles -->
         <item name="buttonBarPositiveButtonStyle">@style/dialog.button.fill</item>
-        <item name="buttonBarNegativeButtonStyle">@style/dialog.button.outline</item>
+        <item name="buttonBarNegativeButtonStyle">@style/dialog.button.outline.light</item>
+        <item name="buttonBarStyle">@style/dialog.buttonbar</item>
+
+        <!-- text styles -->
+        <item name="materialAlertDialogTitleTextStyle">@style/dialog.text.title</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/dialog.text.body</item>
+    </style>
+
+    <style name="dialog.normal.dark" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">@color/colorBackground</item>
+        <item name="alertDialogStyle">@style/dialog.background</item>
+
+        <!-- button styles -->
+        <item name="buttonBarPositiveButtonStyle">@style/dialog.button.fill</item>
+        <item name="buttonBarNegativeButtonStyle">@style/dialog.button.outline.dark</item>
         <item name="buttonBarStyle">@style/dialog.buttonbar</item>
 
         <!-- text styles -->
