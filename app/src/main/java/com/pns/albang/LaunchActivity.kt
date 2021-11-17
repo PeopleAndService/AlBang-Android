@@ -4,12 +4,16 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.pns.albang.viewmodel.LaunchViewModel
 
 class LaunchActivity : AppCompatActivity() {
+
+    private val viewModel: LaunchViewModel by viewModels()
 
     private val permissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
@@ -18,14 +22,43 @@ class LaunchActivity : AppCompatActivity() {
         }
 
         override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-            showAlertDialog("permission denied")
+            Log.d(TAG, deniedPermissions.toString())
+            viewModel.showDialog("permission denied")
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setObserver()
+    }
 
-        checkPermission(permissionListener)
+    /*override fun onStart() {
+        super.onStart()
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+
+        if (account == null) {
+            navigateActivity("login")
+        } else {
+            navigateActivity("main")
+        }
+    }*/
+
+    private fun setObserver() {
+        viewModel.eventTrigger.observe(this, {
+            it.getContentIfNotHandled()?.let { event ->
+                when (event) {
+                    "permission" -> {
+                        checkPermission(permissionListener)
+                    }
+                }
+            }
+        })
+
+        viewModel.showDialog.observe(this, {
+            it.getContentIfNotHandled()?.let { type ->
+                showAlertDialog(type)
+            }
+        })
     }
 
     private fun checkPermission(permissionListener: PermissionListener) =
@@ -47,6 +80,10 @@ class LaunchActivity : AppCompatActivity() {
                 startActivity(Intent(this@LaunchActivity, MainActivity::class.java))
                 finish()
             }
+            "login" -> {
+                startActivity(Intent(this@LaunchActivity, LoginActivity::class.java))
+                finish()
+            }
         }
     }
 
@@ -55,7 +92,7 @@ class LaunchActivity : AppCompatActivity() {
             "permission denied" -> {
                 MaterialAlertDialogBuilder(this@LaunchActivity)
                     .setTitle(getString(R.string.permission_denied_dialog_message))
-                    .setPositiveButton(getString(R.string.permission_denide_dialog_button)) { dialogInterface, _ ->
+                    .setPositiveButton(getString(R.string.permission_denied_dialog_button)) { dialogInterface, _ ->
                         dialogInterface.dismiss()
                         finish()
                     }
