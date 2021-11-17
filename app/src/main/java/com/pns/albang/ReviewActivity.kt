@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.pns.albang.databinding.ActivityReviewBinding
 
 class ReviewActivity : AppCompatActivity() {
@@ -33,13 +34,71 @@ class ReviewActivity : AppCompatActivity() {
     }
 
     private fun settingRecyclerview() {
-        reviewAdapter = ReviewAdapter()
+        reviewAdapter = ReviewAdapter { review -> reviewOnClick(review) }
         binding.rcReview.apply {
             layoutManager = LinearLayoutManager(applicationContext)
             adapter = reviewAdapter
         }
         reviewAdapter.submitList(testList)
 
+    }
+
+    private fun reviewOnClick(review: Review){
+        if (review.isMine) {
+            createDeleteDialog(review)
+        } else {
+            if (!review.isReport) {
+                createNotifyDialog(review)
+            }
+        }
+    }
+
+    private fun createDeleteDialog(review: Review) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(resources.getString(R.string.dialog_title_delete))
+            .setMessage(resources.getString(R.string.dialog_message_review, review.reviewContent))
+            .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
+                // TODO : 삭제 로직
+                dialog.dismiss()
+                createFinishDeleteDialog()
+            }
+            .setNegativeButton(resources.getString(R.string.btn_cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun createNotifyDialog(review: Review) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(resources.getString(R.string.dialog_title_notify))
+            .setMessage(resources.getString(R.string.dialog_message_review, review.reviewContent))
+            .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
+                // TODO : 신고 로직
+                dialog.dismiss()
+                createFinishNotifyDialog()
+            }
+            .setNegativeButton(resources.getString(R.string.btn_cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun createFinishNotifyDialog(){
+        MaterialAlertDialogBuilder(this)
+            .setTitle(resources.getString(R.string.dialog_title_finish_notify))
+            .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun createFinishDeleteDialog(){
+        MaterialAlertDialogBuilder(this)
+            .setTitle(resources.getString(R.string.dialog_title_finish_delete))
+            .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun toggleFab() {

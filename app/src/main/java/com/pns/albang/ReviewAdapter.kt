@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.pns.albang.databinding.ItemReviewBinding
 
-class ReviewAdapter : ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(diffUtil) {
+class ReviewAdapter(private val itemClick: (Review) -> Unit) : ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemReviewBinding.inflate(layoutInflater, parent, false)
@@ -22,6 +22,7 @@ class ReviewAdapter : ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(diffUt
         RecyclerView.ViewHolder(binding.root) {
         fun bind(review: Review) {
             binding.review = review
+            binding.root.setOnClickListener { itemClick(review) }
         }
     }
 

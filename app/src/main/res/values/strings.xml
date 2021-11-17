@@ -7,6 +7,11 @@
     <string name="btn_request">랜드마크 신청하기</string>
 
     <!-- dialog -->
+    <string name="dialog_title_notify">이 방명록을 신고하시겠습니까?</string>
+    <string name="dialog_title_delete">이 방명록을 삭제하시겠습니까?</string>
+    <string name="dialog_message_review">방명록 내용 : %s</string>
+    <string name="dialog_title_finish_notify">신고가 완료되었습니다.</string>
+    <string name="dialog_title_finish_delete">삭제가 완료되었습니다.</string>
 
     <!-- content description -->
     <string name="des_ibtn_report">신고</string>
