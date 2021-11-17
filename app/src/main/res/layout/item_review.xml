@@ -3,22 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
-            name="isMine"
-            type="Boolean" />
-        <variable
-            name="isReport"
-            type="Boolean" />
+            name="review"
+            type="com.pns.albang.Review" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="6dp"
-        app:contentPadding="16dp">
+        android:layout_margin="@dimen/spacing_small"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="@dimen/elevation_normal"
+        app:contentPadding="@dimen/spacing_normal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,7 +27,9 @@
                 android:id="@+id/tv_item_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textAppearance="@style/text.body"
+                android:textColor="@color/colorText"
+                android:text="@{review.reviewContent}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -37,9 +38,9 @@
                 android:id="@+id/ibtn_item_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@{isMine ? @string/des_ibtn_delete : @string/des_ibtn_report}"
-                android:background="@{isMine ? @drawable/btn_review_delete : @drawable/btn_review_report}"
-                android:visibility="@{isReport ? View.INVISIBLE : View.VISIBLE}"
+                android:contentDescription="@{review.isMine ? @string/des_ibtn_delete : @string/des_ibtn_report}"
+                android:background="@{review.isMine ? @drawable/btn_review_delete : @drawable/btn_review_report}"
+                android:visibility="@{review.isReport ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
