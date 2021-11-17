@@ -31,16 +31,17 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_heritage_name" />
 
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_heritage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/sample_image"
-                android:visibility="visible"
+                android:elevation="@dimen/elevation_normal"
                 android:contentDescription="@{@string/des_iv_heritage(heritageName)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/image_round"
                 tools:visibility="visible" />
 
             <TextView

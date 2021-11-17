@@ -20,4 +20,10 @@
         <item name="fontFamily">@font/nanumsquare_acb</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <!-- image overlay -->
+    <style name="image_round">
+        <item name="cornerSizeBottomLeft">@dimen/spacing_normal</item>
+        <item name="cornerSizeBottomRight">@dimen/spacing_normal</item>
+    </style>
 </resources>
