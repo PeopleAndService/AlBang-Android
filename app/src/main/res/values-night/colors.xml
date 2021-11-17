@@ -6,6 +6,7 @@
     <color name="colorBackground">#FF202020</color>
     <color name="colorItem">#FF3C3C3C</color>
     <color name="colorText">#FFFFFFFF</color>
+    <color name="colorOverlay">#66FFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
