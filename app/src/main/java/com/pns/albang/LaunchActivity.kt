@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.pns.albang.databinding.DialogNicknameBinding
 import com.pns.albang.viewmodel.LaunchViewModel
 
 class LaunchActivity : AppCompatActivity() {
@@ -18,7 +20,7 @@ class LaunchActivity : AppCompatActivity() {
     private val permissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
             Log.d(TAG, "permission granted")
-            navigateActivity("main")
+            viewModel.setEvent("autoLogin")
         }
 
         override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
@@ -29,36 +31,42 @@ class LaunchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setObserver()
     }
 
-    /*override fun onStart() {
-        super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-
-        if (account == null) {
-            navigateActivity("login")
-        } else {
-            navigateActivity("main")
-        }
-    }*/
-
     private fun setObserver() {
-        viewModel.eventTrigger.observe(this, {
+        viewModel.eventTrigger.observe(this) {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     "permission" -> {
                         checkPermission(permissionListener)
                     }
+                    "autoLogin" -> {
+                        getLastLoginAcc()
+                    }
+                    "nickname" -> {
+                        viewModel.showDialog("register nickname")
+                    }
                 }
             }
-        })
+        }
 
-        viewModel.showDialog.observe(this, {
+        viewModel.showDialog.observe(this) {
             it.getContentIfNotHandled()?.let { type ->
                 showAlertDialog(type)
             }
-        })
+        }
+
+        viewModel.loginUser.observe(this) {
+            if (it.nickname == null) {
+                // viewModel.showDialog("register nickname")
+                viewModel.setEvent("nickname")
+            } else {
+                navigateActivity("main")
+            }
+        }
+
     }
 
     private fun checkPermission(permissionListener: PermissionListener) =
@@ -73,6 +81,19 @@ class LaunchActivity : AppCompatActivity() {
             .setGotoSettingButton(false)
             .setPermissions(FINE_LOCATION, COARSE_LOCATION, CAMERA)
             .check()
+
+    private fun getLastLoginAcc() {
+        // val account = GoogleSignIn.getLastSignedInAccount(this)
+
+        /*if (account == null) {
+            viewModel.navigate("login")
+        } else {
+            viewModel.autoLogin("test1")
+            // viewModel.autoLogin("test2")
+        }*/
+
+        viewModel.autoLogin("test1")
+    }
 
     private fun navigateActivity(where: String) {
         when (where) {
@@ -95,6 +116,23 @@ class LaunchActivity : AppCompatActivity() {
                     .setPositiveButton(getString(R.string.permission_denied_dialog_button)) { dialogInterface, _ ->
                         dialogInterface.dismiss()
                         finish()
+                    }
+                    .setCancelable(false)
+                    .show()
+            }
+            "register nickname" -> {
+                val nicknameBinding = DialogNicknameBinding.inflate(layoutInflater)
+
+                MaterialAlertDialogBuilder(this@LaunchActivity)
+                    .setTitle(getString(R.string.register_nickname_dialog_title))
+                    .setView(nicknameBinding.root)
+                    .setPositiveButton(getString(R.string.btn_confirm)) { dialogInterface, _ ->
+                        Log.d(TAG, nicknameBinding.etNickname.text.toString())
+                        dialogInterface.dismiss()
+                        navigateActivity("main")
+                    }
+                    .setNegativeButton(getString(R.string.btn_cancel)) { dialogInterface, _ ->
+                        dialogInterface.dismiss()
                     }
                     .setCancelable(false)
                     .show()
