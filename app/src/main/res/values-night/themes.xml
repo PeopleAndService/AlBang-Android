@@ -9,4 +9,8 @@
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:textAppearance">@style/text.body</item>
     </style>
+
+    <style name="GoogleSignInButtons">
+        <item name="colorScheme">dark</item>
+    </style>
 </resources>

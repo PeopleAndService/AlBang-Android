@@ -58,4 +58,7 @@ dependencies {
 
     // TedPermission
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+
+    // Google SignIn
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
 }
