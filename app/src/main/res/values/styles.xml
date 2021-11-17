@@ -20,4 +20,9 @@
         <item name="fontFamily">@font/nanumsquare_acb</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="text.description" parent="android:TextAppearance">
+        <item name="fontFamily">@font/nanumsquare_acr</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

@@ -8,7 +8,10 @@
 
     <!-- dialog -->
     <string name="permission_denied_dialog_message">"앱 사용 필수 권한이 거부되어 앱이 종료됩니다."</string>
-    <string name="permission_denide_dialog_button">앱 종료</string>
+    <string name="permission_denied_dialog_button">앱 종료</string>
+    <string name="register_nickname_dialog_title">닉네임 등록</string>
+    <string name="update_nickname_dialog_title">닉네임 수정</string>
+    <string name="nickname_dialog_default_message">취소를 선택하면 이름으로 설정됩니다.</string>
 
     <!-- permission -->
     <string name="permission_rational_title">권한 허용</string>
@@ -16,5 +19,8 @@
     <string name="permission_rational_button">권한 부여</string>
     <string name="permission_denied_title">권한 거부</string>
     <string name="permission_denied_message">카메라, 위치 권한이 거부되어 앱이 종료됩니다.\n[설정] -> [권한]에서 허용 가능합니다.</string>
+
+    <!-- hint -->
+    <string name="hint_nickname">닉네임을 입력해주세요.</string>
 
 </resources>
