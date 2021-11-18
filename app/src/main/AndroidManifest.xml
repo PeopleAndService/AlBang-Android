@@ -7,6 +7,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".AlBangApplication"
         android:allowBackup="true"
@@ -15,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlBang">
+
         <activity
             android:name=".LaunchActivity"
             android:theme="@style/SplashTheme"
@@ -25,6 +28,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
+
+        <meta-data android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="@string/naver_client_id" />
+
     </application>
 
 </manifest>
