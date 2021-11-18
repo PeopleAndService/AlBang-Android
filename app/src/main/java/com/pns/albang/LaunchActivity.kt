@@ -25,6 +25,8 @@ class LaunchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        startActivity(Intent(applicationContext, ReviewActivity::class.java))
+        finish()
         checkPermission(permissionListener)
     }
 

@@ -28,10 +28,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
-
+        <activity android:name=".ReviewActivity"/>
+      
         <meta-data android:name="com.naver.maps.map.CLIENT_ID"
             android:value="@string/naver_client_id" />
-
+      
     </application>
 
 </manifest>

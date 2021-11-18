@@ -7,8 +7,22 @@
     <string name="btn_request">랜드마크 신청하기</string>
 
     <!-- dialog -->
-    <string name="permission_denied_dialog_message">"앱 사용 필수 권한이 거부되어 앱이 종료됩니다."</string>
-    <string name="permission_denide_dialog_button">앱 종료</string>
+    <string name="dialog_title_notify">이 방명록을 신고하시겠습니까?</string>
+    <string name="dialog_title_delete">이 방명록을 삭제하시겠습니까?</string>
+    <string name="dialog_message_review">방명록 내용 : %s</string>
+    <string name="dialog_title_finish_notify">신고가 완료되었습니다.</string>
+    <string name="dialog_title_finish_delete">삭제가 완료되었습니다.</string>
+
+    <!-- content description -->
+    <string name="des_ibtn_report">신고</string>
+    <string name="des_ibtn_delete">삭제</string>
+    <string name="des_iv_heritage">%s 이미지입니다.</string>
+    <string name="des_btn_back">뒤로 가기</string>
+    <string name="des_fab_review">ar 또는 리스트 화면으로 전환, 방명록 작성, 새로고침 기능을 이용하고 싶으시면 눌러주세요.</string>
+    <string name="des_fab_refresh">방명록 새로고침</string>
+    <string name="des_fab_ar">ar 화면으로 전환</string>
+    <string name="des_fab_list">리스트 화면으로 전환</string>
+    <string name="des_fab_add">방명록 작성하기</string>
 
     <!-- permission -->
     <string name="permission_rational_title">권한 허용</string>
@@ -16,5 +30,7 @@
     <string name="permission_rational_button">권한 부여</string>
     <string name="permission_denied_title">권한 거부</string>
     <string name="permission_denied_message">카메라, 위치 권한이 거부되어 앱이 종료됩니다.\n[설정] -> [권한]에서 허용 가능합니다.</string>
+    <string name="permission_denied_dialog_message">"앱 사용 필수 권한이 거부되어 앱이 종료됩니다."</string>
+    <string name="permission_denide_dialog_button">앱 종료</string>
 
 </resources>
