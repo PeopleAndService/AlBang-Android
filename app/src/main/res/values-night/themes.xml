@@ -10,4 +10,8 @@
         <item name="android:textAppearance">@style/text.body</item>
         <item name="materialAlertDialogTheme">@style/dialog.normal.dark</item>
     </style>
+
+    <style name="GoogleSignInButtons">
+        <item name="colorScheme">dark</item>
+    </style>
 </resources>
