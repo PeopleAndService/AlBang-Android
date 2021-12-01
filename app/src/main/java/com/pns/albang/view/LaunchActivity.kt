@@ -1,4 +1,4 @@
-package com.pns.albang
+package com.pns.albang.view
 
 import android.Manifest
 import android.content.Intent
@@ -10,6 +10,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.pns.albang.MainActivity
+import com.pns.albang.R
 import com.pns.albang.databinding.DialogNicknameBinding
 import com.pns.albang.viewmodel.LaunchViewModel
 
@@ -45,8 +47,8 @@ class LaunchActivity : AppCompatActivity() {
                     "autoLogin" -> {
                         getLastLoginAcc()
                     }
-                    "nickname" -> {
-                        viewModel.showDialog("register nickname")
+                    "login fail" -> {
+                        navigateActivity("login")
                     }
                 }
             }
@@ -60,13 +62,30 @@ class LaunchActivity : AppCompatActivity() {
 
         viewModel.loginUser.observe(this) {
             if (it.nickname == null) {
-                // viewModel.showDialog("register nickname")
-                viewModel.setEvent("nickname")
+                viewModel.showDialog("register nickname")
             } else {
                 navigateActivity("main")
             }
         }
 
+        viewModel.validateNicknameResult.observe(this) {
+            it.getContentIfNotHandled()?.let { result ->
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("닉네임 중복확인")
+                    .setMessage(
+                        when (result) {
+                            "duplicated" -> getString(R.string.nickname_duplicated)
+                            "available" -> getString(R.string.nickname_available)
+                            else -> getString(R.string.validate_nickname_fail)
+                        }
+                    )
+                    .setPositiveButton(getString(R.string.btn_confirm)) { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                    }
+                    .setCancelable(false)
+                    .show()
+            }
+        }
     }
 
     private fun checkPermission(permissionListener: PermissionListener) =
@@ -83,16 +102,13 @@ class LaunchActivity : AppCompatActivity() {
             .check()
 
     private fun getLastLoginAcc() {
-        // val account = GoogleSignIn.getLastSignedInAccount(this)
+        val account = GoogleSignIn.getLastSignedInAccount(this)
 
-        /*if (account == null) {
-            viewModel.navigate("login")
+        if (account == null) {
+            navigateActivity("login")
         } else {
-            viewModel.autoLogin("test1")
-            // viewModel.autoLogin("test2")
-        }*/
-
-        viewModel.autoLogin("test1")
+            viewModel.checkLogin()
+        }
     }
 
     private fun navigateActivity(where: String) {
@@ -123,13 +139,16 @@ class LaunchActivity : AppCompatActivity() {
             "register nickname" -> {
                 val nicknameBinding = DialogNicknameBinding.inflate(layoutInflater)
 
+                nicknameBinding.btnValidate.setOnClickListener {
+                    viewModel.validateNickname(nicknameBinding.etNickname.text.toString())
+                }
+
                 MaterialAlertDialogBuilder(this@LaunchActivity)
                     .setTitle(getString(R.string.register_nickname_dialog_title))
                     .setView(nicknameBinding.root)
                     .setPositiveButton(getString(R.string.btn_confirm)) { dialogInterface, _ ->
                         Log.d(TAG, nicknameBinding.etNickname.text.toString())
-                        dialogInterface.dismiss()
-                        navigateActivity("main")
+                        viewModel.updateNickname(nicknameBinding.etNickname.text.toString(), dialogInterface)
                     }
                     .setNegativeButton(getString(R.string.btn_cancel)) { dialogInterface, _ ->
                         dialogInterface.dismiss()

@@ -21,6 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
+            android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/text.description"
@@ -28,8 +29,16 @@
             android:paddingHorizontal="@dimen/spacing_normal"
             android:text="@string/nickname_dialog_default_message"
             app:layout_constraintTop_toBottomOf="@id/et_nickname"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/et_nickname" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_validate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_check_duplicated"
+            android:textAppearance="@style/text.h3"
+            app:layout_constraintEnd_toEndOf="@+id/et_nickname"
+            app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

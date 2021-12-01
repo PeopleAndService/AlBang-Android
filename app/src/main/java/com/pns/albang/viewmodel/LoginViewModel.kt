@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pns.albang.AlBangApplication
 import com.pns.albang.data.User
+import com.pns.albang.remote.dto.user.SignInRequest
 import com.pns.albang.remote.dto.user.UpdateNicknameRequest
 import com.pns.albang.repository.UserRepository
 import com.pns.albang.util.Event
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class LaunchViewModel : ViewModel() {
+class LoginViewModel : ViewModel() {
 
     private val _eventTrigger = MutableLiveData<Event<String>>()
     private val _showDialog = MutableLiveData<Event<String>>()
@@ -28,52 +29,42 @@ class LaunchViewModel : ViewModel() {
     val loginUser: LiveData<User> = _loginUser
     val validateNicknameResult: LiveData<Event<String>> = _validateNicknameResult
 
-    init {
-        setEvent("permission")
+
+    fun setEvent(event: String) {
+        _eventTrigger.postValue(Event(event))
     }
 
     fun showDialog(type: String) {
         _showDialog.postValue(Event(type))
     }
 
-    fun setEvent(event: String) {
-        _eventTrigger.postValue(Event(event))
-    }
-
-    fun checkLogin() {
+    fun signIn(googleId: String, email: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val userId = AlBangApplication.getApplication().getDataStore().getLongValue(USER_ID_KEY).first()
+            val signInRequest = SignInRequest(googleId, email, name)
 
-            if (userId == 0L) {
-                // 로그인 액티비티로
-                setEvent("login fail")
-            } else {
-                try {
-                    UserRepository.checkLogin(userId).let { response ->
-                        if (response.isSuccessful) {
-                            response.body()?.let {
-                                Log.d(TAG, it.toString())
-                                val user = it.toUserModel()
+            try {
+                UserRepository.signIn(signInRequest).let { response ->
+                    if (response.isSuccessful) {
+                        response.body()?.let { result ->
+                            Log.d(TAG, result.toString())
+                            val user = result.toUserModel()
 
-                                AlBangApplication.getApplication().getDataStore().setValue(USER_ID_KEY, user.userId)
-                                AlBangApplication.getApplication().getDataStore().setValue(USER_EMAIL_KEY, user.email)
-                                AlBangApplication.getApplication().getDataStore().setValue(USER_NAME_KEY, user.name)
-                                AlBangApplication.getApplication().getDataStore().setValue(USER_NICKNAME_KEY, user.nickname ?: "")
+                            AlBangApplication.getApplication().getDataStore().setValue(USER_ID_KEY, user.userId)
+                            AlBangApplication.getApplication().getDataStore().setValue(USER_EMAIL_KEY, user.email)
+                            AlBangApplication.getApplication().getDataStore().setValue(USER_NAME_KEY, user.name)
+                            AlBangApplication.getApplication().getDataStore().setValue(USER_NICKNAME_KEY, user.nickname ?: "")
 
-                                _loginUser.postValue(it.toUserModel())
-                            }
-                        } else {
-                            // 로그인 액티비티로
-                            Log.d(TAG, response.message())
-                            setEvent("login fail")
+                            _loginUser.postValue(result.toUserModel())
                         }
+                    } else {
+                        Log.d(TAG, response.message())
+                        _showDialog.postValue(Event("login fail"))
                     }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Log.e(TAG, e.message ?: "")
-                    // 로그인 액티비티로
-                    setEvent("login fail")
                 }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Log.e(TAG, e.message.toString())
+                _showDialog.postValue(Event("login fail"))
             }
         }
     }
@@ -84,7 +75,7 @@ class LaunchViewModel : ViewModel() {
                 UserRepository.validateNickname(inputNickname).let { response ->
                     if (response.isSuccessful) {
                         response.body()?.let { body ->
-                            if (body.isDuplicated) {
+                            if (!body.isDuplicated) {
                                 _validateNicknameResult.postValue(Event("duplicated"))
                             } else {
                                 _validateNicknameResult.postValue(Event("available"))
@@ -107,7 +98,13 @@ class LaunchViewModel : ViewModel() {
             try {
                 val userId = AlBangApplication.getApplication().getDataStore().getLongValue(USER_ID_KEY).first()
 
-                UserRepository.updateNickname(userId, UpdateNicknameRequest(inputNickname)).let { response ->
+                val request = if (inputNickname == "") {
+                    UpdateNicknameRequest(AlBangApplication.getApplication().getDataStore().getStringValue(USER_NAME_KEY).first())
+                } else {
+                    UpdateNicknameRequest(inputNickname)
+                }
+
+                UserRepository.updateNickname(userId, request).let { response ->
                     if (response.isSuccessful) {
                         response.body()?.let {
                             Log.d(TAG, it.toString())
@@ -135,7 +132,7 @@ class LaunchViewModel : ViewModel() {
     }
 
     companion object {
-        private const val TAG = "LAUNCH VIEW MODEL"
+        private const val TAG = "LOGIN VIEW MODEL"
 
         private const val USER_ID_KEY = "userId"
         private const val USER_EMAIL_KEY = "userEmail"
