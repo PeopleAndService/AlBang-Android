@@ -1,5 +1,6 @@
 package com.pns.albang.remote
 
+import com.pns.albang.remote.dto.landmark.AllLandmarkResponse
 import com.pns.albang.remote.dto.user.SignInRequest
 import com.pns.albang.remote.dto.user.UpdateNicknameRequest
 import com.pns.albang.remote.dto.user.UserResponse
@@ -34,4 +35,7 @@ interface ApiService {
         @Path("id") userId: Long,
         @Body updateNicknameRequest: UpdateNicknameRequest
     ): Response<UserResponse>
+
+    @GET("/landmark/get")
+    suspend fun getLandmark(): Response<AllLandmarkResponse>
 }
