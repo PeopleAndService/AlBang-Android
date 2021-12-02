@@ -69,18 +69,17 @@
             android:backgroundTint="@color/colorPrimary"
             app:tint="@color/white"
             app:layout_constraintEnd_toEndOf="@id/fragment_map"
-            app:layout_constraintBottom_toTopOf="@id/btn_location_application" />
+            app:layout_constraintBottom_toTopOf="@id/btn_bottom" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_location_application"
+            android:id="@+id/btn_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_request"
             app:icon="@drawable/ic_btn_request"
             app:iconTint="@color/white"
             app:iconGravity="textStart"
-            android:textColor="@color/white"
-            android:textAppearance="@style/text.h2"
+            style="@style/button.fill"
             android:layout_margin="@dimen/spacing_normal"
             app:layout_constraintBottom_toBottomOf="@id/fragment_map"
             app:layout_constraintStart_toStartOf="@id/fragment_map"
