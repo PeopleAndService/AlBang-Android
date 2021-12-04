@@ -12,4 +12,5 @@ object UserRepository {
     suspend fun checkLogin(userId: Long) = remoteApiService.checkLogin(userId)
     suspend fun validateNickname(nickname: String) = remoteApiService.validateNickname(nickname)
     suspend fun updateNickname(userId: Long, updateNicknameRequest: UpdateNicknameRequest) = remoteApiService.updateNickname(userId, updateNicknameRequest)
+    suspend fun withdraw(userId: Long) = remoteApiService.withdraw(userId)
 }
