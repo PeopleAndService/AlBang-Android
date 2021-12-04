@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="view"
+            type="com.pns.albang.view.MyPageActivity" />
+
+        <variable
+            name="viewModel"
+            type="com.pns.albang.viewmodel.MyPageViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_normal">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_small"
+            android:onClick="@{() -> view.setOnClick(btnBack)}"
+            android:src="@drawable/btn_back"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mypage_title"
+            android:textAppearance="@style/text.h1"
+            app:layout_constraintTop_toTopOf="@id/btn_back"
+            app:layout_constraintBottom_toBottomOf="@id/btn_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            app:cardElevation="@dimen/elevation_normal"
+            app:cardBackgroundColor="@color/colorItem"
+            app:cardCornerRadius="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@id/btn_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/spacing_normal">
+
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.userNickname}"
+                    android:textAppearance="@style/text.h1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.userEmail}"
+                    android:textAppearance="@style/text.h3"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_update_nickname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> view.setOnClick(btnUpdateNickname)}"
+                    android:text="@string/mypage_nickname_update"
+                    android:textColor="@color/colorText"
+                    android:textAppearance="@style/text.h2"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/view_vertical_divider1" />
+
+                <View
+                    android:id="@+id/view_vertical_divider1"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="@dimen/spacing_small"
+                    android:background="@color/colorOverlay"
+                    app:layout_constraintTop_toTopOf="@id/btn_update_nickname"
+                    app:layout_constraintBottom_toBottomOf="@id/btn_update_nickname"
+                    app:layout_constraintStart_toEndOf="@id/btn_update_nickname"
+                    app:layout_constraintEnd_toStartOf="@id/btn_my_guestbook" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_my_guestbook"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mypage_show_my_guestbook"
+                    android:textAppearance="@style/text.h2"
+                    android:textColor="@color/colorText"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    app:layout_constraintStart_toEndOf="@id/view_vertical_divider1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/btn_update_nickname" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="@string/notice"
+            android:textAppearance="@style/text.h2"
+            android:textColor="@color/colorText"
+            android:gravity="start"
+            android:paddingVertical="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_large"
+            app:layout_constraintTop_toBottomOf="@id/card_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_open_source_license"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:onClick="@{() -> view.setOnClick(btnOpenSourceLicense)}"
+            android:text="@string/open_source_license"
+            android:textAppearance="@style/text.h2"
+            android:textColor="@color/colorText"
+            android:gravity="start"
+            android:paddingVertical="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_large"
+            app:layout_constraintTop_toBottomOf="@id/btn_notice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:onClick="@{() -> view.setOnClick(btnLogout)}"
+            android:text="@string/logout"
+            android:textAppearance="@style/text.h2"
+            android:textColor="@color/colorText"
+            android:gravity="start"
+            android:paddingVertical="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_large"
+            app:layout_constraintTop_toBottomOf="@id/btn_open_source_license"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_withdraw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:onClick="@{() -> view.setOnClick(btnWithdraw)}"
+            android:text="@string/withdraw"
+            android:textColor="@color/colorText"
+            android:textAppearance="@style/text.h2"
+            android:gravity="start"
+            android:paddingVertical="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_large"
+            app:layout_constraintTop_toBottomOf="@id/btn_logout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
