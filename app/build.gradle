@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'com.google.android.gms.oss-licenses-plugin'
 }
 
 android {
@@ -64,10 +65,14 @@ dependencies {
 
     // Fused Location Service
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+
     // Google SignIn
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     // Retrofit2, Gson
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // Google Play Service OpenSource Licenses
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
 }
