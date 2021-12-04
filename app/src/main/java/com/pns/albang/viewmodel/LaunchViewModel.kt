@@ -84,10 +84,10 @@ class LaunchViewModel : ViewModel() {
                 UserRepository.validateNickname(inputNickname).let { response ->
                     if (response.isSuccessful) {
                         response.body()?.let { body ->
-                            if (body.isDuplicated) {
-                                _validateNicknameResult.postValue(Event("duplicated"))
-                            } else {
+                            if (!body.isDuplicated) {
                                 _validateNicknameResult.postValue(Event("available"))
+                            } else {
+                                _validateNicknameResult.postValue(Event("duplicated"))
                             }
                         }
                     } else {

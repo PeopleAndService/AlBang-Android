@@ -7,6 +7,7 @@ import com.pns.albang.remote.dto.user.UserResponse
 import com.pns.albang.remote.dto.user.ValidateNicknameResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -35,6 +36,11 @@ interface ApiService {
         @Path("id") userId: Long,
         @Body updateNicknameRequest: UpdateNicknameRequest
     ): Response<UserResponse>
+
+    @DELETE("/user/withdraw/{id}")
+    suspend fun withdraw(
+        @Path("id") userId: Long
+    ): Response<Void>
 
     @GET("/landmark/get")
     suspend fun getLandmark(): Response<AllLandmarkResponse>

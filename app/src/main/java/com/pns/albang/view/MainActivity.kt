@@ -1,4 +1,4 @@
-package com.pns.albang
+package com.pns.albang.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,6 +18,9 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import com.pns.albang.R
+import com.pns.albang.ReviewActivity
+import com.pns.albang.TestActivity
 import com.pns.albang.databinding.ActivityMainBinding
 import com.pns.albang.viewmodel.MainViewModel
 
@@ -30,6 +33,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationSource: FusedLocationSource
     private lateinit var circleOverlay: CircleOverlay
     private val landmarkInfoWindow = InfoWindow()
+
+    private var guestBookIntent = Intent(this, TestActivity::class.java)
 
     private val onMapReadyCallback = OnMapReadyCallback {
         this.naverMap = it.apply {
@@ -91,11 +96,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         setContentView(binding.root)
+
         fusedLocationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.fragment_map) as MapFragment
-
         mapFragment.getMapAsync(onMapReadyCallback)
+
+        binding.btnSetting.setOnClickListener {
+            startActivity(Intent(this, MyPageActivity::class.java))
+        }
+
+        binding.btnBottom.setOnClickListener {
+            startActivity(guestBookIntent)
+        }
     }
 
     private fun setObserver() {
@@ -122,27 +135,26 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.targetLandmark.observe(this) {
-            val boundedLandmark = it.getContentIfNotHandled()
-            val intent = if (boundedLandmark == null) {
-                Intent(this, TestActivity::class.java)
-            } else {
-                Intent(this, ReviewActivity::class.java).apply {
-                    putExtra("landmark", boundedLandmark.id)
-                    putExtra("landmarkImage", boundedLandmark.imageName)
-                    putExtra("landmarkName", boundedLandmark.name)
+            val landmark = it.getContentIfNotHandled()
+
+            if (landmark == null) {
+                guestBookIntent = Intent(this@MainActivity, TestActivity::class.java)
+
+                binding.btnBottom.apply {
+                    icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_btn_request)
+                    text = getString(R.string.btn_request)
                 }
-            }
-
-            if (boundedLandmark == null) {
-                binding.btnBottom.icon = ContextCompat.getDrawable(this, R.drawable.ic_btn_request)
-                binding.btnBottom.text = getString(R.string.btn_request)
             } else {
-                binding.btnBottom.icon = ContextCompat.getDrawable(this, R.drawable.ic_guestbook)
-                binding.btnBottom.text = getString(R.string.btn_show_guestbook)
-            }
+                guestBookIntent = Intent(this@MainActivity, ReviewActivity::class.java).apply {
+                    putExtra("landmark", landmark.id)
+                    putExtra("landmarkImage", landmark.imageName)
+                    putExtra("landmarkName", landmark.name)
+                }
 
-            binding.btnBottom.setOnClickListener {
-                startActivity(intent)
+                binding.btnBottom.apply {
+                    icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_guestbook)
+                    text = getString(R.string.btn_show_guestbook)
+                }
             }
         }
     }
