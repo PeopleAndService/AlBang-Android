@@ -10,7 +10,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.pns.albang.MainActivity
 import com.pns.albang.R
 import com.pns.albang.databinding.ActivityLoginBinding
 import com.pns.albang.databinding.DialogNicknameBinding
@@ -85,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.validateNicknameResult.observe(this) {
             it.getContentIfNotHandled()?.let { result ->
                 MaterialAlertDialogBuilder(this)
-                    .setTitle("닉네임 중복확인")
+                    .setTitle(getString(R.string.validate_nickname_title))
                     .setMessage(
                         when (result) {
                             "duplicated" -> getString(R.string.nickname_duplicated)

@@ -10,7 +10,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import com.pns.albang.MainActivity
 import com.pns.albang.R
 import com.pns.albang.databinding.DialogNicknameBinding
 import com.pns.albang.viewmodel.LaunchViewModel
@@ -71,7 +70,7 @@ class LaunchActivity : AppCompatActivity() {
         viewModel.validateNicknameResult.observe(this) {
             it.getContentIfNotHandled()?.let { result ->
                 MaterialAlertDialogBuilder(this)
-                    .setTitle("닉네임 중복확인")
+                    .setTitle(getString(R.string.validate_nickname_title))
                     .setMessage(
                         when (result) {
                             "duplicated" -> getString(R.string.nickname_duplicated)
