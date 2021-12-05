@@ -9,6 +9,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.pns.albang.R
 import com.pns.albang.data.Review
@@ -32,6 +33,8 @@ class ReviewActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.heritageName = intent.getStringExtra(LANDMARK_NAME)
+        intent.getStringExtra(LANDMARK_IMAGE_NAME)?.let { setLandmarkImage(it) }
+
 
         binding.fabReview.setOnClickListener {
             toggleFab()
@@ -133,10 +136,19 @@ class ReviewActivity : AppCompatActivity() {
         isFabOpen = !isFabOpen
     }
 
+    private fun setLandmarkImage(fileName: String) {
+        Glide
+            .with(binding.root)
+            .load(FILE_URL+fileName)
+            .fitCenter()
+            .into(binding.ivHeritage)
+    }
+
     companion object {
         private const val LANDMARK_ID = "landmarkID"
         private const val LANDMARK_IMAGE_NAME = "landmarkImage"
         private const val LANDMARK_NAME = "landmarkName"
+        private const val FILE_URL = "http://203.255.3.231:1130/file/get/"
 
         fun newIntent(packageContext: Context, landmarkId: Long, landmarkImgName: String, landmarkName: String): Intent {
             return Intent(packageContext, ReviewActivity::class.java).apply {
