@@ -76,16 +76,17 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toBottomOf="@id/tv_heritage_name"
             motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent" />
+            motion:layout_constraintStart_toStartOf="@id/btn_back" />
 
         <Constraint
             android:id="@+id/tv_heritage_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
             motion:layout_constraintEnd_toEndOf="@id/iv_heritage"
             motion:layout_constraintTop_toTopOf="@id/iv_heritage"
             motion:layout_constraintStart_toStartOf="@id/iv_heritage"
-            motion:layout_constraintBottom_toBottomOf="@+id/iv_heritage">
+            motion:layout_constraintBottom_toBottomOf="@id/iv_heritage">
             <CustomAttribute
                 motion:attributeName="textColor"
                 motion:customColorValue="@color/colorText" />

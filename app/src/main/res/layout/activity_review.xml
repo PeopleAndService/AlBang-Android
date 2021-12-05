@@ -56,6 +56,7 @@
                 android:paddingVertical="@dimen/spacing_small"
                 android:text="@{heritageName}"
                 android:textColor="@color/white"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="@id/iv_heritage"
                 app:layout_constraintStart_toStartOf="@id/iv_heritage"
                 app:layout_constraintTop_toTopOf="@id/iv_heritage" />

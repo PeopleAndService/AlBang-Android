@@ -30,7 +30,7 @@
         </activity>
         <activity android:name=".view.MainActivity" />
         <activity android:name=".view.LoginActivity" />
-        <activity android:name=".ReviewActivity" />
+        <activity android:name=".view.ReviewActivity" />
         <activity android:name=".view.MyPageActivity" />
         <activity android:name=".view.MyGuestbookActivity" />
         <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"

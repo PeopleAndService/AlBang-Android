@@ -1,4 +1,4 @@
-package com.pns.albang
+package com.pns.albang.data
 
 data class Review(
     val reviewId: String,

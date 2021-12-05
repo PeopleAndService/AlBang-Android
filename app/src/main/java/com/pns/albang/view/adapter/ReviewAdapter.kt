@@ -1,13 +1,16 @@
-package com.pns.albang
+package com.pns.albang.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.pns.albang.data.Review
 import com.pns.albang.databinding.ItemReviewBinding
 
-class ReviewAdapter(private val itemClick: (Review) -> Unit) : ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(diffUtil) {
+class ReviewAdapter(private val itemClick: (Review) -> Unit) : ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(
+    diffUtil
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemReviewBinding.inflate(layoutInflater, parent, false)

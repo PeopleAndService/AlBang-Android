@@ -1,6 +1,8 @@
-package com.pns.albang
+package com.pns.albang.view
 
 import android.animation.ObjectAnimator
+import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -8,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.pns.albang.R
+import com.pns.albang.data.Review
+import com.pns.albang.view.adapter.ReviewAdapter
 import com.pns.albang.databinding.ActivityReviewBinding
 
 class ReviewActivity : AppCompatActivity() {
@@ -15,16 +20,18 @@ class ReviewActivity : AppCompatActivity() {
     private lateinit var reviewAdapter: ReviewAdapter
     private var isFabOpen = false
 
-    private var testList = mutableListOf(Review("1", "내가 쓴 방명록", true, false),
+    private var testList = mutableListOf(
+        Review("1", "내가 쓴 방명록", true, false),
         Review("2", "신고하지 않은 방명록", false, false),
-        Review("3", "신고완료 한 방명록", false, true))
+        Review("3", "신고완료 한 방명록", false, true)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.heritageName = "경복궁"
+        binding.heritageName = intent.getStringExtra(LANDMARK_NAME)
 
         binding.fabReview.setOnClickListener {
             toggleFab()
@@ -124,5 +131,19 @@ class ReviewActivity : AppCompatActivity() {
             ObjectAnimator.ofFloat(binding.fabReview, View.ROTATION, 0f, 45f).apply { start() }
         }
         isFabOpen = !isFabOpen
+    }
+
+    companion object {
+        private const val LANDMARK_ID = "landmarkID"
+        private const val LANDMARK_IMAGE_NAME = "landmarkImage"
+        private const val LANDMARK_NAME = "landmarkName"
+
+        fun newIntent(packageContext: Context, landmarkId: Long, landmarkImgName: String, landmarkName: String): Intent {
+            return Intent(packageContext, ReviewActivity::class.java).apply {
+                putExtra(LANDMARK_ID, landmarkId)
+                putExtra(LANDMARK_IMAGE_NAME, landmarkImgName)
+                putExtra(LANDMARK_NAME, landmarkName)
+            }
+        }
     }
 }
