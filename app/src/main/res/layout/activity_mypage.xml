@@ -109,6 +109,7 @@
                     android:text="@string/mypage_show_my_guestbook"
                     android:textAppearance="@style/text.h2"
                     android:textColor="@color/colorText"
+                    android:onClick="@{() -> view.setOnClick(btnMyGuestbook)}"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     app:layout_constraintStart_toEndOf="@id/view_vertical_divider1"
                     app:layout_constraintEnd_toEndOf="parent"
