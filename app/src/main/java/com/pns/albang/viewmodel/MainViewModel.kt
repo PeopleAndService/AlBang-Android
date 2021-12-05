@@ -38,7 +38,7 @@ class MainViewModel : ViewModel() {
                         response.body()?.let { body ->
                             Log.d(TAG, body.toString())
 
-                            body.result.forEach { res ->
+                            body.results.forEach { res ->
                                 if (!_landmarkList.any { it.id == res.id }) {
                                     _landmarkList.add(
                                         Landmark(
