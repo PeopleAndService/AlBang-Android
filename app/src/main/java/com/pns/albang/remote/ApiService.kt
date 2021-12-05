@@ -1,6 +1,8 @@
 package com.pns.albang.remote
 
-import com.pns.albang.remote.dto.landmark.AllLandmarkResponse
+import com.pns.albang.remote.dto.GetListBasedResponse
+import com.pns.albang.remote.dto.guestbook.MyGuestbookResponse
+import com.pns.albang.remote.dto.landmark.LandmarkResponse
 import com.pns.albang.remote.dto.user.SignInRequest
 import com.pns.albang.remote.dto.user.UpdateNicknameRequest
 import com.pns.albang.remote.dto.user.UserResponse
@@ -16,6 +18,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
+    // user
     @POST("/user/new")
     suspend fun signIn(
         @Body signInRequestBody: SignInRequest
@@ -42,6 +45,18 @@ interface ApiService {
         @Path("id") userId: Long
     ): Response<Void>
 
+    // landmark
     @GET("/landmark/get")
-    suspend fun getLandmark(): Response<AllLandmarkResponse>
+    suspend fun getLandmark(): Response<GetListBasedResponse<LandmarkResponse>>
+
+    // guestbook
+    @GET("/guestbook/get/author")
+    suspend fun getMyGuestbook(
+        @Query("author") userId: Long
+    ) : Response<GetListBasedResponse<MyGuestbookResponse>>
+
+    @DELETE("/guestbook/delete/{id}")
+    suspend fun deleteGuestbook(
+        @Path("id") guestbookId: Long
+    ) : Response<Void>
 }

@@ -30,6 +30,30 @@ class MyPageActivity : AppCompatActivity() {
         setObserver()
     }
 
+    fun setOnClick(view: View) {
+        when (view.id) {
+            R.id.btn_back -> {
+                finish()
+            }
+            R.id.btn_update_nickname -> {
+                viewModel.showDialog("update nickname")
+            }
+            R.id.btn_my_guestbook -> {
+                navigateActivity("my guestbook")
+            }
+            R.id.btn_open_source_license -> {
+                OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_license))
+                startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+            }
+            R.id.btn_logout -> {
+                viewModel.showDialog("sign out")
+            }
+            R.id.btn_withdraw -> {
+                viewModel.showDialog("withdraw")
+            }
+        }
+    }
+
     private fun setObserver() {
         viewModel.showDialog.observe(this) {
             it.getContentIfNotHandled()?.let { type ->
@@ -66,6 +90,18 @@ class MyPageActivity : AppCompatActivity() {
                     }
                     .setCancelable(false)
                     .show()
+            }
+        }
+    }
+
+    private fun navigateActivity(where: String) {
+        when (where) {
+            "my guestbook" -> {
+                startActivity(Intent(this, MyGuestbookActivity::class.java))
+            }
+            "login" -> {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
         }
     }
@@ -157,36 +193,6 @@ class MyPageActivity : AppCompatActivity() {
                     }
                     .setCancelable(false)
                     .show()
-            }
-        }
-    }
-
-    private fun navigateActivity(where: String) {
-        when (where) {
-            "login" -> {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            }
-        }
-    }
-
-    fun setOnClick(view: View) {
-        when (view.id) {
-            R.id.btn_back -> {
-                finish()
-            }
-            R.id.btn_open_source_license -> {
-                OssLicensesMenuActivity.setActivityTitle(getString(R.string.open_source_license))
-                startActivity(Intent(this, OssLicensesMenuActivity::class.java))
-            }
-            R.id.btn_update_nickname -> {
-                viewModel.showDialog("update nickname")
-            }
-            R.id.btn_logout -> {
-                viewModel.showDialog("sign out")
-            }
-            R.id.btn_withdraw -> {
-                viewModel.showDialog("withdraw")
             }
         }
     }
