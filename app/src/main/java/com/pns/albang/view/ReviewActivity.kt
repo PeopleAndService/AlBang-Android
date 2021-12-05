@@ -22,9 +22,7 @@ class ReviewActivity : AppCompatActivity() {
     private var isFabOpen = false
 
     private var testList = mutableListOf(
-        Review("1", "내가 쓴 방명록", true, false),
-        Review("2", "신고하지 않은 방명록", false, false),
-        Review("3", "신고완료 한 방명록", false, true)
+        Review(1, "내가 쓴 방명록", "anchorTest",true, false)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
