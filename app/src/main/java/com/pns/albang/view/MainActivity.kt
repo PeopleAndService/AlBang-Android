@@ -7,6 +7,7 @@ import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.LocationTrackingMode
@@ -20,7 +21,6 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.pns.albang.R
 import com.pns.albang.ReviewActivity
-import com.pns.albang.TestActivity
 import com.pns.albang.databinding.ActivityMainBinding
 import com.pns.albang.viewmodel.MainViewModel
 
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var circleOverlay: CircleOverlay
     private val landmarkInfoWindow = InfoWindow()
 
-    private var guestBookIntent = Intent(this, TestActivity::class.java)
+    private lateinit var bottomSheet: LandmarkApplicationBottomSheet
 
     private val onMapReadyCallback = OnMapReadyCallback {
         this.naverMap = it.apply {
@@ -105,10 +105,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnSetting.setOnClickListener {
             startActivity(Intent(this, MyPageActivity::class.java))
         }
-
-        binding.btnBottom.setOnClickListener {
-            startActivity(guestBookIntent)
-        }
     }
 
     private fun setObserver() {
@@ -138,14 +134,19 @@ class MainActivity : AppCompatActivity() {
             val landmark = it.getContentIfNotHandled()
 
             if (landmark == null) {
-                guestBookIntent = Intent(this@MainActivity, TestActivity::class.java)
+                // guestBookIntent = Intent(this@MainActivity, TestActivity::class.java)
 
                 binding.btnBottom.apply {
                     icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_btn_request)
                     text = getString(R.string.btn_request)
+                    setOnClickListener {
+                        viewModel.setLocationForApplication(circleOverlay.center)
+                        bottomSheet = LandmarkApplicationBottomSheet()
+                        bottomSheet.show(supportFragmentManager, LandmarkApplicationBottomSheet.TAG)
+                    }
                 }
             } else {
-                guestBookIntent = Intent(this@MainActivity, ReviewActivity::class.java).apply {
+                val guestBookIntent = Intent(this@MainActivity, ReviewActivity::class.java).apply {
                     putExtra("landmark", landmark.id)
                     putExtra("landmarkImage", landmark.imageName)
                     putExtra("landmarkName", landmark.name)
@@ -154,7 +155,42 @@ class MainActivity : AppCompatActivity() {
                 binding.btnBottom.apply {
                     icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_guestbook)
                     text = getString(R.string.btn_show_guestbook)
+                    setOnClickListener {
+                        startActivity(guestBookIntent)
+                    }
                 }
+            }
+        }
+
+        viewModel.showDialog.observe(this) {
+            it.getContentIfNotHandled()?.let { type ->
+                bottomSheet.dismiss()
+                showDialog(type)
+            }
+        }
+    }
+
+    private fun showDialog(type: String) {
+        when (type) {
+            "apply failed" -> {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(getString(R.string.apply_fail_title))
+                    .setMessage(getString(R.string.apply_fail_message))
+                    .setPositiveButton(getString(R.string.btn_confirm)) { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                    }
+                    .setCancelable(false)
+                    .show()
+            }
+            "apply success" -> {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(getString(R.string.apply_success_title))
+                    .setMessage(getString(R.string.apply_success_message))
+                    .setPositiveButton(getString(R.string.btn_confirm)) { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                    }
+                    .setCancelable(false)
+                    .show()
             }
         }
     }

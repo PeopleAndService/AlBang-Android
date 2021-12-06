@@ -15,6 +15,11 @@ import com.pns.albang.repository.LandmarkRepository
 import com.pns.albang.util.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONObject
+import java.io.File
 import java.io.IOException
 
 class MainViewModel : ViewModel() {
@@ -25,6 +30,13 @@ class MainViewModel : ViewModel() {
 
     private val _targetLandmark = MutableLiveData<Event<Landmark?>>()
     val targetLandmark: LiveData<Event<Landmark?>> = _targetLandmark
+
+    private val _showDialog = MutableLiveData<Event<String>>()
+    val showDialog: LiveData<Event<String>> = _showDialog
+
+    // BottomSheet
+    private val _latLng = MutableLiveData<LatLng>()
+    val latLng: LiveData<LatLng> = _latLng
 
     init {
         loadLandmarks()
@@ -79,6 +91,40 @@ class MainViewModel : ViewModel() {
         }
 
         _targetLandmark.postValue(Event(search))
+    }
+
+    fun showDialog(type: String) {
+        _showDialog.postValue(Event(type))
+    }
+
+    fun setLocationForApplication(latLng: LatLng) {
+        _latLng.value = latLng
+    }
+
+    fun applyLandmark(file: File, landmarkName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val json = JSONObject()
+            json.put("name", landmarkName)
+            json.put("latitude", latLng.value!!.latitude.toString())
+            json.put("longitude", latLng.value!!.longitude.toString())
+
+            val imageBody = RequestBody.create(MediaType.parse("image/jpeg"), file)
+            val imageMultipartBody = MultipartBody.Part.createFormData("image", file.name, imageBody)
+            val jsonBody = RequestBody.create(MediaType.parse("application/json"), json.toString())
+
+            try {
+                LandmarkRepository.applyLandmark(imageMultipartBody, jsonBody).let { response ->
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            Log.d(TAG, "$it")
+                            showDialog("apply success")
+                        }
+                    }
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
     }
 
     companion object {
