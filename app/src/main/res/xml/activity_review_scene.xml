@@ -23,9 +23,7 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:transitionEasing="linear">
-            <CustomAttribute
-                motion:attributeName="background"
-                motion:background="@drawable/sample_image" />
+
         </Constraint>
         <Constraint
             android:id="@+id/rc_review"

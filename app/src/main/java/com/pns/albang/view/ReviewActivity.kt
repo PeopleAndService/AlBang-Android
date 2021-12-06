@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,19 +16,20 @@ import com.pns.albang.R
 import com.pns.albang.data.Review
 import com.pns.albang.view.adapter.ReviewAdapter
 import com.pns.albang.databinding.ActivityReviewBinding
+import com.pns.albang.viewmodel.ReviewViewModel
 
 class ReviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReviewBinding
     private lateinit var reviewAdapter: ReviewAdapter
+    private val viewModel: ReviewViewModel by viewModels()
     private var isFabOpen = false
 
-    private var testList = mutableListOf(
-        Review(1, "내가 쓴 방명록", "anchorTest",true, false)
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReviewBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         setContentView(binding.root)
 
         binding.heritageName = intent.getStringExtra(LANDMARK_NAME)
@@ -37,7 +39,7 @@ class ReviewActivity : AppCompatActivity() {
         binding.fabReview.setOnClickListener {
             toggleFab()
         }
-
+        viewModel.getReviews(intent.getLongExtra(LANDMARK_ID, 0L))
         settingRecyclerview()
     }
 
@@ -47,7 +49,6 @@ class ReviewActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(applicationContext)
             adapter = reviewAdapter
         }
-        reviewAdapter.submitList(testList)
 
     }
 
