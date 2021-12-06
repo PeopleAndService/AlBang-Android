@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="view"
+            type="com.pns.albang.view.LandmarkApplicationBottomSheet" />
+
+        <variable
+            name="viewModel"
+            type="com.pns.albang.viewmodel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_normal">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_close"
+            android:padding="@dimen/spacing_small"
+            android:onClick="@{() -> view.onClick(btnClose)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/cl_main"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_normal"
+            app:layout_constraintBottom_toTopOf="@id/btn_application"
+            app:layout_constraintTop_toBottomOf="@id/btn_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/ic_image_holder"
+                android:scaleType="centerCrop"
+                android:layout_margin="@dimen/spacing_normal"
+                app:layout_constraintBottom_toTopOf="@id/btn_gallery"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_gallery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/button.fill"
+                android:text="@string/btn_gallery"
+                android:onClick="@{() -> view.onClick(btnGallery)}"
+                app:layout_constraintBottom_toTopOf="@id/et_name"
+                app:layout_constraintTop_toBottomOf="@id/iv_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_camera"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_camera"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/button.fill"
+                android:text="@string/btn_camera"
+                android:onClick="@{() -> view.onClick(btnCamera)}"
+                app:layout_constraintStart_toEndOf="@id/btn_gallery"
+                app:layout_constraintTop_toTopOf="@id/btn_gallery"
+                app:layout_constraintBottom_toBottomOf="@id/btn_gallery"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/landmark_name_hint"
+                android:textAppearance="@style/text.h2"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/spacing_small"
+                android:padding="@dimen/spacing_small"
+                app:layout_constraintTop_toBottomOf="@id/btn_gallery"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_location"/>
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/text.h3"
+                android:text="@{@string/location_format(viewModel.latLng.latitude, viewModel.latLng.longitude)}"
+                android:padding="@dimen/spacing_small"
+                android:layout_margin="@dimen/spacing_small"
+                app:layout_constraintTop_toBottomOf="@id/et_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_application"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_application"
+            android:onClick="@{() -> view.onClick(btnApplication)}"
+            style="@style/button.fill"
+            app:layout_constraintTop_toBottomOf="@id/cl_main"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
