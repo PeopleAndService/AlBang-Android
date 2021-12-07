@@ -8,6 +8,10 @@
         <variable
             name="heritageName"
             type="String" />
+
+        <variable
+            name="viewModel"
+            type="com.pns.albang.viewmodel.ReviewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/spacing_small"
+                app:reviewItems="@{viewModel.reviewLiveData}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +39,8 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_heritage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sample_image"
+                android:layout_height="240dp"
+                android:scaleType="fitXY"
                 android:elevation="@dimen/elevation_normal"
                 android:contentDescription="@{@string/des_iv_heritage(heritageName)}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,6 +61,7 @@
                 android:paddingVertical="@dimen/spacing_small"
                 android:text="@{heritageName}"
                 android:textColor="@color/white"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="@id/iv_heritage"
                 app:layout_constraintStart_toStartOf="@id/iv_heritage"
                 app:layout_constraintTop_toTopOf="@id/iv_heritage" />

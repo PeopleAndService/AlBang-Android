@@ -20,6 +20,7 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.pns.albang.R
+import com.pns.albang.TestActivity
 import com.pns.albang.ReviewActivity
 import com.pns.albang.databinding.ActivityMainBinding
 import com.pns.albang.viewmodel.MainViewModel
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var circleOverlay: CircleOverlay
     private val landmarkInfoWindow = InfoWindow()
 
+    private lateinit var guestBookIntent: Intent
     private lateinit var bottomSheet: LandmarkApplicationBottomSheet
 
     private val onMapReadyCallback = OnMapReadyCallback {
@@ -99,6 +101,8 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
+        guestBookIntent = Intent(this, TestActivity::class.java)
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.fragment_map) as MapFragment
         mapFragment.getMapAsync(onMapReadyCallback)
 
@@ -146,10 +150,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                val guestBookIntent = Intent(this@MainActivity, ReviewActivity::class.java).apply {
-                    putExtra("landmark", landmark.id)
-                    putExtra("landmarkImage", landmark.imageName)
-                    putExtra("landmarkName", landmark.name)
+
+                guestBookIntent = ReviewActivity.newIntent(this@MainActivity, landmark.id, landmark.imageName, landmark.name)
+
                 }
 
                 binding.btnBottom.apply {

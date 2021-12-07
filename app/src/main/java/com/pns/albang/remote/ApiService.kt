@@ -2,6 +2,9 @@ package com.pns.albang.remote
 
 import com.pns.albang.remote.dto.GetListBasedResponse
 import com.pns.albang.remote.dto.guestbook.MyGuestbookResponse
+import com.pns.albang.remote.dto.guestbook.ReviewRequest
+import com.pns.albang.remote.dto.guestbook.ReviewResponse
+import com.pns.albang.remote.dto.guestbook.VanRequest
 import com.pns.albang.remote.dto.landmark.LandmarkResponse
 import com.pns.albang.remote.dto.user.SignInRequest
 import com.pns.albang.remote.dto.user.UpdateNicknameRequest
@@ -57,12 +60,28 @@ interface ApiService {
     @GET("/guestbook/get/author")
     suspend fun getMyGuestbook(
         @Query("author") userId: Long
-    ) : Response<GetListBasedResponse<MyGuestbookResponse>>
+    ): Response<GetListBasedResponse<MyGuestbookResponse>>
 
     @DELETE("/guestbook/delete/{id}")
     suspend fun deleteGuestbook(
         @Path("id") guestbookId: Long
-    ) : Response<Void>
+    ): Response<Void>
+
+    // Review
+    @POST("/guestbook/new")
+    suspend fun setReview(
+        @Body reviewRequest: ReviewRequest
+    ): Response<ReviewResponse>
+
+    @GET("/guestbook/get/landmark")
+    suspend fun getReviews(
+        @Query("landmark") landmarkId: Long
+    ): Response<GetListBasedResponse<ReviewResponse>>
+
+    @POST("/guestbook/van")
+    suspend fun requestVan(
+        @Body vanRequest: VanRequest
+    ): Response<Void>
 
     @Multipart
     @POST("/landmark/application")

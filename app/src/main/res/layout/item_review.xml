@@ -8,7 +8,7 @@
 
         <variable
             name="review"
-            type="com.pns.albang.Review" />
+            type="com.pns.albang.data.Review" />
     </data>
 
     <androidx.cardview.widget.CardView
