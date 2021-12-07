@@ -38,6 +38,20 @@ class ReviewActivity : AppCompatActivity() {
         binding.fabReview.setOnClickListener {
             toggleFab()
         }
+
+        binding.fabRefresh.setOnClickListener {
+
+        }
+
+        binding.fabAr.setOnClickListener {
+            toggleFab()
+            startActivity(Intent(this, ARReviewActivity::class.java))
+        }
+
+        binding.fabAdd.setOnClickListener {
+
+        }
+
         viewModel.getReviews(intent.getLongExtra(LANDMARK_ID, 0L))
         settingRecyclerview()
 
@@ -119,9 +133,9 @@ class ReviewActivity : AppCompatActivity() {
         } else {
             binding.fabBackground.visibility = View.VISIBLE
             binding.motionLayout.isInteractionEnabled = false
-            ObjectAnimator.ofFloat(binding.fabAdd, "translationY", -250f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabAr, "translationY", -500f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabRefresh, "translationY", -750f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabAdd, "translationY", -200f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabAr, "translationY", -400f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabRefresh, "translationY", -600f).apply { start() }
             binding.fabReview.backgroundTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
             binding.fabReview.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.fab_review_add))
