@@ -21,11 +21,10 @@ class ReviewAdapter(private val itemClick: (Review) -> Unit) : ListAdapter<Revie
         holder.bind(getItem(position))
     }
 
-    inner class ReviewViewHolder(private val binding: ItemReviewBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ReviewViewHolder(private val binding: ItemReviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(review: Review) {
             binding.review = review
-            binding.root.setOnClickListener { itemClick(review) }
+            binding.root.setOnClickListener { itemClick(getItem(adapterPosition)) }
         }
     }
 

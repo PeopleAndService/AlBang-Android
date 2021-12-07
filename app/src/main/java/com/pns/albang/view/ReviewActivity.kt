@@ -24,7 +24,6 @@ class ReviewActivity : AppCompatActivity() {
     private val viewModel: ReviewViewModel by viewModels()
     private var isFabOpen = false
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReviewBinding.inflate(layoutInflater)
@@ -41,6 +40,15 @@ class ReviewActivity : AppCompatActivity() {
         }
         viewModel.getReviews(intent.getLongExtra(LANDMARK_ID, 0L))
         settingRecyclerview()
+
+        viewModel.showDialog.observe(this) {
+            it.getContentIfNotHandled()?.let { content ->
+                when (content) {
+                    "delete success" -> createFinishDeleteDialog()
+                    "van success" -> createFinishNotifyDialog()
+                }
+            }
+        }
     }
 
     private fun settingRecyclerview() {
@@ -49,10 +57,9 @@ class ReviewActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(applicationContext)
             adapter = reviewAdapter
         }
-
     }
 
-    private fun reviewOnClick(review: Review){
+    private fun reviewOnClick(review: Review) {
         if (review.isMine) {
             createDeleteDialog(review)
         } else {
@@ -62,53 +69,41 @@ class ReviewActivity : AppCompatActivity() {
         }
     }
 
-    private fun createDeleteDialog(review: Review) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(resources.getString(R.string.dialog_title_delete))
-            .setMessage(resources.getString(R.string.dialog_message_review, review.reviewContent))
-            .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
-                // TODO : 삭제 로직
-                dialog.dismiss()
-                createFinishDeleteDialog()
-            }
-            .setNegativeButton(resources.getString(R.string.btn_cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
-    }
+    private fun createDeleteDialog(review: Review) = MaterialAlertDialogBuilder(this)
+        .setTitle(resources.getString(R.string.dialog_title_delete))
+        .setMessage(resources.getString(R.string.dialog_message_review, review.reviewContent))
+        .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
+            viewModel.deleteReview(review, dialog)
+        }
+        .setNegativeButton(resources.getString(R.string.btn_cancel)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        .show()
 
-    private fun createNotifyDialog(review: Review) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(resources.getString(R.string.dialog_title_notify))
-            .setMessage(resources.getString(R.string.dialog_message_review, review.reviewContent))
-            .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
-                // TODO : 신고 로직
-                dialog.dismiss()
-                createFinishNotifyDialog()
-            }
-            .setNegativeButton(resources.getString(R.string.btn_cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
-    }
+    private fun createNotifyDialog(review: Review) = MaterialAlertDialogBuilder(this)
+        .setTitle(resources.getString(R.string.dialog_title_notify))
+        .setMessage(resources.getString(R.string.dialog_message_review, review.reviewContent))
+        .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
+            viewModel.vanReview(review, dialog)
+        }
+        .setNegativeButton(resources.getString(R.string.btn_cancel)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        .show()
 
-    private fun createFinishNotifyDialog(){
-        MaterialAlertDialogBuilder(this)
-            .setTitle(resources.getString(R.string.dialog_title_finish_notify))
-            .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
-    }
+    private fun createFinishNotifyDialog() = MaterialAlertDialogBuilder(this)
+        .setTitle(resources.getString(R.string.dialog_title_finish_notify))
+        .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        .show()
 
-    private fun createFinishDeleteDialog(){
-        MaterialAlertDialogBuilder(this)
-            .setTitle(resources.getString(R.string.dialog_title_finish_delete))
-            .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
-    }
+    private fun createFinishDeleteDialog() = MaterialAlertDialogBuilder(this)
+        .setTitle(resources.getString(R.string.dialog_title_finish_delete))
+        .setPositiveButton(resources.getString(R.string.btn_confirm)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        .show()
 
     private fun toggleFab() {
         if (isFabOpen) {
@@ -138,7 +133,7 @@ class ReviewActivity : AppCompatActivity() {
     private fun setLandmarkImage(fileName: String) {
         Glide
             .with(binding.root)
-            .load(FILE_URL+fileName)
+            .load(FILE_URL + fileName)
             .fitCenter()
             .into(binding.ivHeritage)
     }
@@ -149,7 +144,12 @@ class ReviewActivity : AppCompatActivity() {
         private const val LANDMARK_NAME = "landmarkName"
         private const val FILE_URL = "http://203.255.3.231:1130/file/get/"
 
-        fun newIntent(packageContext: Context, landmarkId: Long, landmarkImgName: String, landmarkName: String): Intent {
+        fun newIntent(
+            packageContext: Context,
+            landmarkId: Long,
+            landmarkImgName: String,
+            landmarkName: String
+        ): Intent {
             return Intent(packageContext, ReviewActivity::class.java).apply {
                 putExtra(LANDMARK_ID, landmarkId)
                 putExtra(LANDMARK_IMAGE_NAME, landmarkImgName)

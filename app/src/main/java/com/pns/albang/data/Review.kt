@@ -5,5 +5,5 @@ data class Review(
     val reviewContent: String,
     val anchor: String,
     val isMine: Boolean,
-    val isReport: Boolean
+    var isReport: Boolean
 )

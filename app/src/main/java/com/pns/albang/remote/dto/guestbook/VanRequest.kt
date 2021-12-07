@@ -6,6 +6,6 @@ data class VanRequest(
     @SerializedName("userId")
     val userId: Long,
 
-    @SerializedName("guestbookId")
+    @SerializedName("guestBookId")
     val guestbookId: Long
 )
