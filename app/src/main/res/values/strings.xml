@@ -71,4 +71,15 @@
     <string name="delete_my_guestbook_content">&quot;%s&quot;</string>
     <string name="delete_my_guestbook_message">이(가) 삭제됩니다.</string>
 
+    <!-- landmark application -->
+    <string name="btn_gallery">갤러리에서 선택하기</string>
+    <string name="btn_camera">사진 촬영하기</string>
+    <string name="landmark_name_hint">랜드마크 이름을 입력해주세요.</string>
+    <string name="location_format">현재위치 위도 : %f, 경도 : %f</string>
+    <string name="btn_application">신청하기</string>
+    <string name="apply_fail_title">랜드마크 신청 실패</string>
+    <string name="apply_fail_message">랜드마크 신청에 실패했습니다.\n잠시 후 다시 시도해주세요.</string>
+    <string name="apply_success_title">랜드마크 신청 성공</string>
+    <string name="apply_success_message">랜드마크 신청에 성공했습니다.\n검토 후 승인까지 1~2일이 소요됩니다.</string>
+
 </resources>

@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.Locale
 
 class MyGuestbookViewModel : ViewModel() {
@@ -43,8 +42,8 @@ class MyGuestbookViewModel : ViewModel() {
                                     it.guestbookId,
                                     it.content,
                                     it.state,
-                                    it.createdTime,
-                                    it.updatedTime,
+                                    dateTimeConverter(it.createdTime),
+                                    dateTimeConverter(it.updatedTime),
                                     it.landmarkName
                                 )
                             })
@@ -87,10 +86,12 @@ class MyGuestbookViewModel : ViewModel() {
 
         private const val USER_ID_KEY = "userId"
 
-        private fun convertDateTime(dateTime: LocalDateTime): String{
-            val formatString = SimpleDateFormat("yyyy.MM.dd hh:mm:ss", Locale.KOREAN)
+        private fun dateTimeConverter(dateTimeStr: String): String {
+            val formatString = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS", Locale.getDefault())
+            val dateTime =  formatString.parse(dateTimeStr)
+            val convertString = SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault())
 
-            return formatString.format(dateTime)
+            return convertString.format(dateTime!!)
         }
     }
 }
