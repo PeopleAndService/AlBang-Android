@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28"/>
 
+    <uses-feature android:name="android.hardware.camera.ar" />
+
     <application
         android:name=".AlBangApplication"
         android:allowBackup="true"
@@ -42,6 +44,12 @@
 
         <meta-data android:name="com.naver.maps.map.CLIENT_ID"
             android:value="@string/naver_client_id" />
+
+        <meta-data android:name="com.google.ar.core" android:value="required" />
+
+        <meta-data
+            android:name="com.google.android.ar.API_KEY"
+            android:value="@string/cloud_api_key"/>
 
         <provider
             android:authorities="com.pns.albang"
