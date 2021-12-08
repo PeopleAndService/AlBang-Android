@@ -1,6 +1,8 @@
 package com.pns.albang.view
 
 import android.animation.ObjectAnimator
+import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +17,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import com.pns.albang.R
+import com.pns.albang.data.Review
 import com.pns.albang.databinding.ActivityArReviewBinding
 import com.pns.albang.databinding.ViewArReviewBinding
 
@@ -66,6 +69,12 @@ class ARReviewActivity : AppCompatActivity() {
             }
             if (isFirstTab) {
                 isFirstTab = !isFirstTab
+                val reviewList = intent.getParcelableArrayListExtra<Review>(REVIEWS)
+                if (reviewList != null) {
+                    for (review in reviewList) {
+                        resolveAnchor(review.anchor, review.reviewContent)
+                    }
+                }
             } else {
                 val anchor = arFragment.arSceneView.session?.hostCloudAnchor(hitResult.createAnchor())
                 if (anchor != null) {
@@ -179,5 +188,18 @@ class ARReviewActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "AR Review Activity"
+        private const val REVIEW_CONTENT = "reviewContent"
+        private const val REVIEWS = "reviewList"
+
+        fun newIntent(
+            packageContext: Context,
+            reviewContent: String,
+            reviewLists: ArrayList<Review>
+        ): Intent {
+            return Intent(packageContext, ARReviewActivity::class.java).apply {
+                putExtra(REVIEW_CONTENT, reviewContent)
+                putExtra(REVIEWS, reviewLists)
+            }
+        }
     }
 }

@@ -50,6 +50,7 @@
 
     <!-- hint -->
     <string name="hint_nickname">닉네임을 입력해주세요.</string>
+    <string name="hint_review">방명록을 입력해주세요.</string>
 
     <!-- login -->
     <string name="login_fail_dialog_title">로그인 실패</string>
