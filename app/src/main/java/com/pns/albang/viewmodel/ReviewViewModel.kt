@@ -34,7 +34,7 @@ class ReviewViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         response.body()?.let { body ->
                             Log.d(TAG, body.toString())
-
+                            _reviews.clear()
                             _reviews.addAll(body.results.map {
                                 Review(
                                     it.guestbookId,
@@ -88,6 +88,12 @@ class ReviewViewModel : ViewModel() {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun getReviewArray(): ArrayList<Review> = if (_reviews.size < 10) {
+        ArrayList(_reviews)
+    } else {
+        ArrayList(_reviews.subList(0, 10))
     }
 
     companion object {

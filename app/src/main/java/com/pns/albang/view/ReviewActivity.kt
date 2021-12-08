@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -14,13 +15,15 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.pns.albang.R
 import com.pns.albang.data.Review
-import com.pns.albang.view.adapter.ReviewAdapter
 import com.pns.albang.databinding.ActivityReviewBinding
+import com.pns.albang.databinding.DialogReviewBinding
+import com.pns.albang.view.adapter.ReviewAdapter
 import com.pns.albang.viewmodel.ReviewViewModel
 
 class ReviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReviewBinding
     private lateinit var reviewAdapter: ReviewAdapter
+    private lateinit var reviewList: ArrayList<Review>
     private val viewModel: ReviewViewModel by viewModels()
     private var isFabOpen = false
 
@@ -38,6 +41,36 @@ class ReviewActivity : AppCompatActivity() {
         binding.fabReview.setOnClickListener {
             toggleFab()
         }
+
+        binding.fabRefresh.setOnClickListener {
+            viewModel.getReviews(intent.getLongExtra(LANDMARK_ID, 0L))
+        }
+
+        binding.fabAr.setOnClickListener {
+            toggleFab()
+            reviewList = viewModel.getReviewArray()
+            Log.d(TAG, "$reviewList")
+            startActivity(
+                Intent(
+                    ARReviewActivity.newIntent(
+                        this,
+                        "",
+                        reviewList,
+                        intent.getLongExtra(LANDMARK_ID, 0L)
+                    )
+                )
+            )
+        }
+
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
+        binding.fabAdd.setOnClickListener {
+            toggleFab()
+            createReviewAddDialog()
+        }
+
         viewModel.getReviews(intent.getLongExtra(LANDMARK_ID, 0L))
         settingRecyclerview()
 
@@ -105,6 +138,31 @@ class ReviewActivity : AppCompatActivity() {
         }
         .show()
 
+    private fun createReviewAddDialog() {
+        val dialogReviewBinding = DialogReviewBinding.inflate(layoutInflater)
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.dialog_review_add))
+            .setView(dialogReviewBinding.root)
+            .setPositiveButton(getString(R.string.btn_confirm)) { dialogInterface, _ ->
+                Log.d(TAG, dialogReviewBinding.etReview.text.toString())
+                reviewList = viewModel.getReviewArray()
+                Log.d(TAG, "$reviewList")
+                startActivity(
+                    ARReviewActivity.newIntent(
+                        this,
+                        dialogReviewBinding.etReview.text.toString(),
+                        reviewList,
+                        intent.getLongExtra(LANDMARK_ID, 0L)
+                    )
+                )
+            }
+            .setNegativeButton(getString(R.string.btn_cancel)) { dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+            .setCancelable(false)
+            .show()
+    }
+
     private fun toggleFab() {
         if (isFabOpen) {
             binding.fabBackground.visibility = View.INVISIBLE
@@ -119,9 +177,9 @@ class ReviewActivity : AppCompatActivity() {
         } else {
             binding.fabBackground.visibility = View.VISIBLE
             binding.motionLayout.isInteractionEnabled = false
-            ObjectAnimator.ofFloat(binding.fabAdd, "translationY", -250f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabAr, "translationY", -500f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabRefresh, "translationY", -750f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabAdd, "translationY", -200f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabAr, "translationY", -400f).apply { start() }
+            ObjectAnimator.ofFloat(binding.fabRefresh, "translationY", -600f).apply { start() }
             binding.fabReview.backgroundTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
             binding.fabReview.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.fab_review_add))
@@ -139,6 +197,7 @@ class ReviewActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val TAG = "Review Activity"
         private const val LANDMARK_ID = "landmarkID"
         private const val LANDMARK_IMAGE_NAME = "landmarkImage"
         private const val LANDMARK_NAME = "landmarkName"

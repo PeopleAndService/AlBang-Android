@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <fragment
+            android:id="@+id/ar_fragment"
+            android:name="com.pns.albang.view.CloudAnchorFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/group_fab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/fab_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorOverlay"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/des_fab_add"
+                app:srcCompat="@drawable/fab_review_add"
+                app:tint="@color/white"
+                app:fabCustomSize="48dp"
+                app:layout_constraintTop_toTopOf="@id/fab_review"
+                app:layout_constraintBottom_toBottomOf="@id/fab_review"
+                app:layout_constraintStart_toStartOf="@id/fab_review"
+                app:layout_constraintEnd_toEndOf="@id/fab_review" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/des_fab_list"
+                app:srcCompat="@drawable/fab_review_list"
+                app:tint="@color/white"
+                app:fabCustomSize="48dp"
+                app:layout_constraintTop_toTopOf="@id/fab_review"
+                app:layout_constraintBottom_toBottomOf="@id/fab_review"
+                app:layout_constraintStart_toStartOf="@id/fab_review"
+                app:layout_constraintEnd_toEndOf="@id/fab_review" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/des_fab_refresh"
+                app:srcCompat="@drawable/fab_review_refresh"
+                app:tint="@color/white"
+                app:fabCustomSize="48dp"
+                app:layout_constraintTop_toTopOf="@id/fab_review"
+                app:layout_constraintBottom_toBottomOf="@id/fab_review"
+                app:layout_constraintStart_toStartOf="@id/fab_review"
+                app:layout_constraintEnd_toEndOf="@id/fab_review" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_normal"
+                android:contentDescription="@string/des_fab_review"
+                app:srcCompat="@drawable/fab_review_ar"
+                app:tint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+</layout>

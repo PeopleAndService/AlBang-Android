@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28"/>
 
+    <uses-feature android:name="android.hardware.camera.ar" />
+
     <application
         android:name=".AlBangApplication"
         android:allowBackup="true"
@@ -36,12 +38,19 @@
         <activity android:name=".view.ReviewActivity" />
         <activity android:name=".view.MyPageActivity" />
         <activity android:name=".view.MyGuestbookActivity" />
+        <activity android:name=".view.ARReviewActivity" />
         <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
         <activity android:name=".TestActivity" />
 
         <meta-data android:name="com.naver.maps.map.CLIENT_ID"
             android:value="@string/naver_client_id" />
+
+        <meta-data android:name="com.google.ar.core" android:value="required" />
+
+        <meta-data
+            android:name="com.google.android.ar.API_KEY"
+            android:value="@string/cloud_api_key"/>
 
         <provider
             android:authorities="com.pns.albang"

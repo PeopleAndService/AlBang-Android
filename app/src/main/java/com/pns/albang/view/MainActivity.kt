@@ -21,7 +21,6 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.pns.albang.R
 import com.pns.albang.TestActivity
-import com.pns.albang.ReviewActivity
 import com.pns.albang.databinding.ActivityMainBinding
 import com.pns.albang.viewmodel.MainViewModel
 
@@ -151,9 +150,8 @@ class MainActivity : AppCompatActivity() {
                 }
             } else {
 
-                guestBookIntent = ReviewActivity.newIntent(this@MainActivity, landmark.id, landmark.imageName, landmark.name)
-
-                }
+                guestBookIntent =
+                    ReviewActivity.newIntent(this@MainActivity, landmark.id, landmark.imageName, landmark.name)
 
                 binding.btnBottom.apply {
                     icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_guestbook)

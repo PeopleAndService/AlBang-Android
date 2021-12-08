@@ -27,6 +27,8 @@
     <string name="logout_fail_message">로그아웃에 실패했습니다.\n다시 시도해주세요.</string>
     <string name="withdraw_fail_title">회원탈퇴 실패</string>
     <string name="withdraw_fail_message">회원탈퇴에 실패했습니다.\n다시 시도해주세요.</string>
+    <string name="dialog_review_add">방명록 추가</string>
+    <string name="dialog_explanation">원하는 위치에 방명록을 놓아주세요.</string>
 
     <!-- content description -->
     <string name="des_ibtn_report">신고</string>
@@ -50,6 +52,7 @@
 
     <!-- hint -->
     <string name="hint_nickname">닉네임을 입력해주세요.</string>
+    <string name="hint_review">방명록을 입력해주세요.</string>
 
     <!-- login -->
     <string name="login_fail_dialog_title">로그인 실패</string>
