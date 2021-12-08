@@ -15,9 +15,9 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.pns.albang.R
 import com.pns.albang.data.Review
-import com.pns.albang.view.adapter.ReviewAdapter
 import com.pns.albang.databinding.ActivityReviewBinding
 import com.pns.albang.databinding.DialogReviewBinding
+import com.pns.albang.view.adapter.ReviewAdapter
 import com.pns.albang.viewmodel.ReviewViewModel
 
 class ReviewActivity : AppCompatActivity() {
@@ -43,14 +43,27 @@ class ReviewActivity : AppCompatActivity() {
         }
 
         binding.fabRefresh.setOnClickListener {
-
+            viewModel.getReviews(intent.getLongExtra(LANDMARK_ID, 0L))
         }
 
         binding.fabAr.setOnClickListener {
             toggleFab()
             reviewList = viewModel.getReviewArray()
             Log.d(TAG, "$reviewList")
-            startActivity(Intent(ARReviewActivity.newIntent(this, "", reviewList)))
+            startActivity(
+                Intent(
+                    ARReviewActivity.newIntent(
+                        this,
+                        "",
+                        reviewList,
+                        intent.getLongExtra(LANDMARK_ID, 0L)
+                    )
+                )
+            )
+        }
+
+        binding.btnBack.setOnClickListener {
+            finish()
         }
 
         binding.fabAdd.setOnClickListener {
@@ -128,13 +141,20 @@ class ReviewActivity : AppCompatActivity() {
     private fun createReviewAddDialog() {
         val dialogReviewBinding = DialogReviewBinding.inflate(layoutInflater)
         MaterialAlertDialogBuilder(this)
-            .setTitle(getString(R.string.register_nickname_dialog_title))
+            .setTitle(getString(R.string.dialog_review_add))
             .setView(dialogReviewBinding.root)
             .setPositiveButton(getString(R.string.btn_confirm)) { dialogInterface, _ ->
                 Log.d(TAG, dialogReviewBinding.etReview.text.toString())
                 reviewList = viewModel.getReviewArray()
                 Log.d(TAG, "$reviewList")
-                startActivity(ARReviewActivity.newIntent(this, dialogReviewBinding.etReview.toString(), reviewList))
+                startActivity(
+                    ARReviewActivity.newIntent(
+                        this,
+                        dialogReviewBinding.etReview.text.toString(),
+                        reviewList,
+                        intent.getLongExtra(LANDMARK_ID, 0L)
+                    )
+                )
             }
             .setNegativeButton(getString(R.string.btn_cancel)) { dialogInterface, _ ->
                 dialogInterface.dismiss()
